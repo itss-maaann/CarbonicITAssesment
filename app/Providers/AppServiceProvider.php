@@ -11,7 +11,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(
+            \App\Contracts\PaymentRepositoryInterface::class,
+            function ($app) {
+                if (request()->input('gateway') === 'paypal') {
+                    return $app->make(\App\Repositories\PayPalTransactionRepository::class);
+                }
+                return $app->make(\App\Repositories\StripePaymentRepository::class);
+            }
+        );
     }
 
     /**
