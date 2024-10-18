@@ -7,60 +7,48 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## About Carbonic Assessment
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Carbonic Assessment is a Laravel-based application designed to showcase secure payment integration using both **Stripe** and **PayPal** payment gateways. The application is built with a clean and professional UI to demonstrate seamless payment processing, refund functionalities, and integration best practices.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Features:
+- **Stripe Integration**: Secure payments with 3D Secure support.
+- **PayPal Integration**: PayPal payments with simple order creation and capture flows (demonstration only).
+- **Professional UI**: Clean, responsive, and user-friendly interface.
+- **Payment Refund Demonstration**: Although not fully integrated with the UI, refund logic is implemented for demonstration purposes.
+- **Error Handling**: User-friendly error handling with modal dialogs.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Notes:
+- **PayPal Integration**: Due to account creation limitations and API key access issues (unable to create PayPal account due to country restrictions), the PayPal functionality is provided as a basic demonstration. The necessary functions are implemented but not fully tested or finalized.
+- **Stripe Payment Processing**: The Stripe payment gateway is fully implemented, including payment intent creation, confirmation, and error handling.
 
-## Learning Laravel
+## How to Use:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+1. **Stripe Payment**:
+    - Navigate to the payment page.
+    - Select Stripe, fill in your email, amount, and card details.
+    - Click "Pay Now" to process the payment.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+2. **PayPal Payment** (Demonstration):
+    - Navigate to the payment page.
+    - Select PayPal and proceed with the simulated order (requires API key setup for full functionality).
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Technologies Used:
+- **Laravel 10** (Backend framework)
+- **Stripe API** (Payment Gateway)
+- **PayPal API** (Demonstration only)
+- **Blade Templating Engine** (Frontend)
+- **JavaScript** (AJAX for payment processing)
 
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## Disclaimer:
+- This is a test application designed for demonstration purposes only.
+- PayPal integration is currently in a demonstration phase and not fully functional due to the lack of access to API keys.
+- Refund logic is implemented but not displayed on the frontend.
 
 ## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Thank you for considering contributing to the Carbonic Assessment application! Feel free to submit pull requests or report issues in the repository.
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The Carbonic Assessment project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
