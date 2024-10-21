@@ -39,7 +39,11 @@ return [
     'paypal' => [
         'client_id' => env('PAYPAL_CLIENT_ID'),
         'secret' => env('PAYPAL_SECRET'),
-        'mode' => env('PAYPAL_MODE', 'sandbox'), // default to sandbox mode
+        'mode' => env('PAYPAL_MODE', 'sandbox'),
     ],
 
+    'external_api' => [
+        'order_url' => env('EXTERNAL_API_ORDER_URL'),
+        'product_url' => env('EXTERNAL_API_PRODUCT_URL'),
+    ],
 ];

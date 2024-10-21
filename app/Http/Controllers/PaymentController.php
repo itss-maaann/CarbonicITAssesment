@@ -4,58 +4,92 @@ namespace App\Http\Controllers;
 
 use App\Contracts\PaymentGatewayInterface;
 use App\Http\Requests\CreatePaymentRequest;
+use App\Services\OrderService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
 {
-    protected $paymentService;
+    protected PaymentGatewayInterface $paymentService;
+    protected OrderService $orderService;
 
-    public function __construct(PaymentGatewayInterface $paymentService)
+    public function __construct(PaymentGatewayInterface $paymentService, OrderService $orderService)
     {
         $this->paymentService = $paymentService;
+        $this->orderService = $orderService;
     }
 
-    public function createPayment(CreatePaymentRequest $request)
+    public function showPaymentForm(int $orderId, string $gateway): \Illuminate\View\View
     {
-        $paymentIntent = $this->paymentService->createPaymentIntent(
-            $request->email,
-            $request->amount
-        );
+        $order = $this->orderService->getOrderById($orderId);
 
-        if ($paymentIntent) {
-            return response()->json(['clientSecret' => $paymentIntent->client_secret], 200);
-        }
-
-        return response()->json(['error' => 'Payment creation failed'], 500);
+        return view("payment.{$gateway}", ['order' => $order]);
     }
 
-    public function confirmPayment($paymentId)
+    public function createPayment(CreatePaymentRequest $request): \Illuminate\Http\JsonResponse
     {
-        $status = $this->paymentService->confirmPaymentStatus($paymentId);
+        DB::beginTransaction();
+        try {
+            $paymentIntent = $this->paymentService->createPaymentIntent(
+                $request->email,
+                $request->amount,
+                $request->order_id
+            );
 
-        if ($status) {
-            return response()->json(['status' => $status], 200);
+            if ($paymentIntent) {
+                $this->orderService->updateOrderAfterPayment(
+                    $request->order_id,
+                    $paymentIntent->id,
+                    'processing'
+                );
+                DB::commit();
+                return response()->json(['clientSecret' => $paymentIntent->client_secret], 200);
+            }
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => 'Payment creation failed'], 500);
         }
-
-        return response()->json(['error' => 'Payment confirmation failed'], 500);
     }
 
-    public function processRefund(Request $request)
+    public function confirmPayment(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $request->validate([
+            'paymentId' => 'required',
+            'order_id' => 'required|exists:orders,id',
+        ]);
+
+        try {
+            $status = $this->paymentService->confirmPaymentStatus($request->paymentId);
+
+            if ($status === 'succeeded') {
+                $this->orderService->updateOrderStatus($request->order_id, 'completed');
+                return response()->json(['status' => 'succeeded'], 200);
+            }
+            return response()->json(['error' => 'Payment confirmation failed'], 500);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Payment confirmation error'], 500);
+        }
+    }
+
+    public function processRefund(Request $request): \Illuminate\Http\JsonResponse
     {
         $validated = $request->validate([
             'payment_id' => 'required|string',
-            'amount' => 'nullable|numeric|min:1'
+            'amount' => 'nullable|numeric|min:1',
         ]);
 
-        $refund = $this->paymentService->processRefund(
-            $validated['payment_id'],
-            $validated['amount'] ?? null
-        );
+        try {
+            $refund = $this->paymentService->processRefund(
+                $validated['payment_id'],
+                $validated['amount'] ?? null
+            );
 
-        if ($refund) {
-            return response()->json(['refund' => 'Refund succeeded!'], 200);
+            if ($refund) {
+                return response()->json(['refund' => 'Refund succeeded!'], 200);
+            }
+            return response()->json(['error' => 'Refund failed'], 500);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Refund process error'], 500);
         }
-
-        return response()->json(['error' => 'Refund failed'], 500);
     }
 }

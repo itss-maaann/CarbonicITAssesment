@@ -1,19 +1,17 @@
-/* General Styling */
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f4f7f6;
     margin: 0;
     min-height: 100vh;
     display: flex;
-    flex-direction: column; /* Flex layout to ensure footer stays at the bottom */
+    flex-direction: column;
 }
 
 .container {
-    flex: 1; /* Makes the container take up all available space */
+    flex: 1;
     padding: 30px;
 }
 
-/* Header and Navbar */
 h1 {
     text-align: center;
     color: #333;
@@ -177,12 +175,45 @@ h1 {
 }
 
 .gateway-selection {
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.payment-options {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
     margin-top: 10px;
 }
 
+.payment-option {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: #f4f7f6;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.payment-option input[type="radio"] {
+    margin-right: 10px;
+    accent-color: #28a745;
+}
+
+.payment-option:hover {
+    background-color: #e1e1e1;
+}
+
+.gateway-label {
+    font-size: 16px;
+}
+
 .continue-button {
-    width: 100%;
-    padding: 15px;
+    padding: 15px 30px;
     background-color: #28a745;
     color: white;
     font-size: 16px;
@@ -190,14 +221,13 @@ h1 {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin-top: 20px;
+    transition: background-color 0.3s ease;
 }
 
 .continue-button:hover {
     background-color: #218838;
 }
 
-/* Payment Form Styling */
 #payment-form {
     background-color: #fff;
     padding: 30px;
@@ -206,6 +236,33 @@ h1 {
     max-width: 400px;
     width: 100%;
     margin: 0 auto;
+}
+
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loader {
+    border: 6px solid #f3f3f3; /* Light grey */
+    border-top: 6px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 input[type="email"], input[type="number"], #card-element {
@@ -235,40 +292,97 @@ button:hover {
     background-color: #218838;
 }
 
-/* Modal Styling */
 .modal {
     display: none;
     position: fixed;
     z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .modal-content {
     background-color: #fff;
     padding: 20px;
-    margin: 15% auto;
-    width: 80%;
-    max-width: 400px;
     border-radius: 10px;
-    text-align: center;
+    max-width: 500px;
+    width: 90%;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
 }
 
-.close-btn {
-    padding: 10px 20px;
+.modal.show .modal-content {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.modal-header h2 {
+    margin-top: 0;
+    font-size: 24px;
+    color: #333;
+}
+
+.modal-body .form-group {
+    margin-bottom: 15px;
+}
+
+.modal-body input[type="text"],
+.modal-body input[type="number"] {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+    margin-top: 5px;
+}
+
+.modal-footer {
+    text-align: right;
+}
+
+.close-btn,
+.continue-button {
+    width: 100%;
+    padding: 15px;
     background-color: #28a745;
     color: white;
+    font-size: 16px;
+    font-weight: 600;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
 }
 
-.close-btn:hover {
+.close-btn:hover,
+.continue-button:hover {
     background-color: #218838;
+}
+
+.modal-body .form-group label {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    display: block;
+}
+
+#products-container .product-item {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    text-align: left;
+    transition: all 0.3s ease;
+}
+
+#products-container .product-item:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
 }
 
 #paypal-payment-form {
@@ -296,12 +410,120 @@ input[type="email"], input[type="number"] {
     text-align: center;
 }
 
+.card {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.badge {
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.badge-success {
+    background-color: #28a745;
+}
+
+.badge-warning {
+    background-color: #ffc107;
+}
+
+#order-form-container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto 30px;
+}
+
+#order-form {
+    display: flex;
+    flex-direction: column;
+}
+
+#order-form select {
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+#orders-container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.order-item {
+    margin-bottom: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.order-item h3 {
+    margin-top: 0;
+    font-size: 20px;
+    color: #333;
+}
+
+.order-item p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #555;
+}
+
+.order-item ul {
+    padding-left: 20px;
+}
+
+.order-item ul li {
+    margin-bottom: 5px;
+}
+
+.product-item {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.product-item h3 {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+}
+
+.product-item p {
+    margin: 10px 0 0;
+    font-size: 18px;
+    color: #555;
+}
+
 footer {
     background-color: #333;
     color: white;
     text-align: center;
     padding: 10px 0;
     width: 100%;
-    margin-top: auto; /* Ensures footer stays at the bottom of the page */
+    margin-top: auto;
     position: relative;
 }

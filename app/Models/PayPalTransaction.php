@@ -18,6 +18,7 @@ class PayPalTransaction extends Model
         'paypal_payment_id',
         'email',
         'amount',
-        'status'
+        'status',
+        'order_id'
     ];
 }

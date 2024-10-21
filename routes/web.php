@@ -1,7 +1,11 @@
 <?php
 
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
+
+
 
 
 /*
@@ -23,16 +27,14 @@ Route::get('/about', function () {
     return view('about');
 })->name('about');
 
-Route::get('/stripe', function () {
-    return view('payment.stripe');
-})->name('payment.stripe');
+Route::group(['prefix' => 'payment'], function () {
+    Route::get('/{order}/{gateway}', [PaymentController::class, 'showPaymentForm'])->name('payment.form');
+    Route::post('/create', [PaymentController::class, 'createPayment'])->name('payment.process');
+    Route::post('/confirm', [PaymentController::class, 'confirmPayment'])->name('payment.confirm');
+    Route::post('/refund', [PaymentController::class, 'processRefund'])->name('refund');
+});
 
-Route::get('/paypal', function () {
-    return view('payment.paypal');
-})->name('payment.paypal');
-
-Route::post('/payment/create', [PaymentController::class, 'createPayment'])->name('payment.create');
-Route::get('/payment/confirm/{paymentId}', [PaymentController::class, 'confirmPayment'])->name('payment.confirm');
-Route::post('/refund', [PaymentController::class, 'processRefund'])->name('refund');
+Route::resource('orders', OrderController::class)->only(['index', 'store']);
+Route::resource('products', ProductController::class)->only(['index', 'store']);
 
 require __DIR__.'/auth.php';

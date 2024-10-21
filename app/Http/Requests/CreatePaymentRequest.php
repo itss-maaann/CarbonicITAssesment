@@ -24,7 +24,8 @@ class CreatePaymentRequest extends FormRequest
         return [
             'email' => 'required|email',
             'amount' => 'required|numeric|min:1',
-            'gateway' => 'required|in:stripe,paypal',
+            'gateway' => 'required|in:' . implode(',', array_keys(config('paymentGateways'))),
+            'order_id' => 'required|exists:orders,id',
         ];
     }
 }

@@ -18,6 +18,7 @@ class StripeTransaction extends Model
         'stripe_payment_id',
         'email',
         'amount',
-        'status'
+        'status',
+        'order_id'
     ];
 }

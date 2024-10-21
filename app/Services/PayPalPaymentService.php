@@ -13,18 +13,18 @@ class PayPalPaymentService implements PaymentGatewayInterface
     {
         $this->paymentRepository = $paymentRepository;
     }
-    public function createPaymentIntent(string $email, float $amount)
+    public function createPaymentIntent(string $email, float $amount, int $orderId)
     {
-        // Logic for creating PayPal payment
+
     }
 
     public function confirmPaymentStatus(string $paymentId)
     {
-        // Logic for confirming PayPal payment status
+
     }
 
     public function processRefund(string $paymentId, float $amount = null)
     {
-        // Logic for processing a refund via PayPal
+
     }
 }

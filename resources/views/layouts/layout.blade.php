@@ -14,8 +14,8 @@
             <ul class="navbar-menu">
                 <li><a href="/">Home</a></li>
                 <li><a href="/about">About</a></li>
-                <li><a href="/stripe">Stripe</a></li>
-                <li><a href="/paypal">PayPal</a></li>
+                <li><a href="/orders">Orders</a></li>
+                <li><a href="/products">Products</a></li>
             </ul>
         </nav>
     </header>

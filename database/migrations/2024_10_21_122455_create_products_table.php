@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('stripe_transactions', function (Blueprint $table) {
+        Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('stripe_payment_id')->unique();
-            $table->string('email');
-            $table->float('amount', 8, 2);
-            $table->enum('status', ['pending', 'succeeded', 'failed']);
+            $table->string('name');
+            $table->decimal('price', 10, 2);
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('stripe_transactions');
+        Schema::dropIfExists('products');
     }
 };

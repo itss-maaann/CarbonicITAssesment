@@ -7,25 +7,25 @@ use App\Models\StripeTransaction;
 
 class StripePaymentRepository implements PaymentRepositoryInterface
 {
-    protected $stripeTransaction;
+    protected $model;
 
-    public function __construct(StripeTransaction $stripeTransaction)
+    public function __construct(StripeTransaction $model)
     {
-        $this->stripeTransaction = $stripeTransaction;
+        $this->model = $model;
     }
 
     public function create(array $data)
     {
-        return $this->stripeTransaction->create($data);
+        return $this->model->create($data);
     }
 
     public function findByPaymentId(string $paymentId)
     {
-        return $this->stripeTransaction->where('stripe_payment_id', $paymentId)->first();
+        return $this->model->where('stripe_payment_id', $paymentId)->first();
     }
 
     public function updateStatus(string $paymentId, string $status)
     {
-        return $this->stripeTransaction->where('stripe_payment_id', $paymentId)->update(['status' => $status]);
+        return $this->model->where('stripe_payment_id', $paymentId)->update(['status' => $status]);
     }
 }
